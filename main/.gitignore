@@ -2,3 +2,4 @@
 node_modules
 jspm_packages
 public/bundle.js
+config.js
