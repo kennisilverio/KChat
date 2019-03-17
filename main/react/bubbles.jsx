@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Bubbles = ({bubble}) => {
+const Bubbles = (props) => {
   const style = {
     border: 'solid',
     borderRadius: '2px',
@@ -10,8 +10,9 @@ const Bubbles = ({bubble}) => {
 
   <div style={style}>
       
-    <div> Name:  {bubble.handle}</div>    
-    <div> Message: {bubble.message}</div>
+    <div> Name:  {props.bubble.handle}</div> 
+    <div> Date: {props.bubble.date}</div>   
+    <div> Message: {props.bubble.message}</div>
 
 </div>
 )}
