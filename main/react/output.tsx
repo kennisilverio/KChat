@@ -1,7 +1,7 @@
 import React from 'react';
-import Bubbles from './bubbles.jsx';
+import Bubbles from './bubbles';
 
-class Output extends React.Component { 
+class Output extends React.Component<any,any> { 
     constructor(props) {
         super(props)
     }

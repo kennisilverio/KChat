@@ -1,11 +1,21 @@
-import React from 'react';
+import * as React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
-import Output from './output.jsx';
+import Output from './output';
 import socketIOClient from "socket.io-client";
 
 
-class App extends React.Component {
+
+interface myState {
+  handle: string,
+  message: string,
+  body: any[],
+  endpoint: string
+}
+
+let socket;
+
+class App extends React.Component<{}, myState> {
   constructor(props) {
     super(props);
     this.state = { 
@@ -18,17 +28,16 @@ class App extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.messageChange = this.messageChange.bind(this);
     this.renderBody = this.renderBody.bind(this);
-
+    
     //establish socket connection to socket io client
-    this.socket = socketIOClient(this.state.endpoint)
-
+    socket = socketIOClient(this.state.endpoint);
+    
     // on reception of the message from the server, adds message to dom
-    this.socket.on('RECEIVE_MESSAGE', function(data){
+    socket.on('RECEIVE_MESSAGE', function(data: any){
       addMessage(data);
   });
-  
   //adds message by setting the state of the body.
-  const addMessage = data => {
+  const addMessage = (data: any) => {
       this.setState({body: [...this.state.body, data]});
   };
   }
@@ -38,14 +47,14 @@ class App extends React.Component {
 
   }
 
-  handleClick(e){
+  private handleClick(e){
     e.preventDefault()
     axios.post('/api/chat', {
       message: this.state.message,
       handle: this.state.handle
     })
     .then(data => {
-    this.socket.emit('SEND_MESSAGE', {
+    socket.emit('SEND_MESSAGE', {
         handle: this.state.handle,
         message: this.state.message,
         date: new Date().toString()
@@ -58,7 +67,7 @@ class App extends React.Component {
 
   }
 
-  renderBody(){
+  private renderBody(){
     axios.get('/api/chat')
     .then(({data}) => {
         this.setState({
@@ -68,13 +77,13 @@ class App extends React.Component {
     .catch(err => console.log(err, "err in renderBody"))
 }
   
-  handleChange(e){
+  private handleChange(e){
     this.setState({
       handle: e.target.value
     })
   }
 
-  messageChange(e){
+  private messageChange(e){
     this.setState({
       message: e.target.value
     })

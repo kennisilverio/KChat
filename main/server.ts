@@ -4,7 +4,7 @@ const http = require('http').Server(app);
 const bodyParser = require("body-parser")
 const AWS = require('aws-sdk');
 const config = require('./config');
-const io = require('socket.io')(http);
+var io = require('socket.io')(http);
 const port = process.env.PORT || 4001;
 
 AWS.config.update(config.aws_config)
