@@ -6,7 +6,8 @@ const bodyParser = require("body-parser")
 const AWS = require('aws-sdk');
 const config = require('../config');
 // const server = sls(app);
-var io = require('socket.io')(http);
+// var io = require('socket.io')(http);
+const WebSockets = require('ws');
 const port = process.env.PORT || 4001;
 
 AWS.config.update(config.aws_config)
@@ -127,14 +128,30 @@ app.post('/api/chat', (req, res) => {
 
 //socket.io
 
-io.on('connection', (client) => {
-    // here you can start emitting events to the client 
-    console.log("Client connected.")
-    client.on('SEND_MESSAGE', function(data){
-        io.emit('RECEIVE_MESSAGE', data);
-    })
-    io.on("disconnect", () => console.log("Client disconnected."));
+// io.on('connection', (client) => {
+//     // emitting events to the client 
+//     console.log("Client connected.")
+//     client.on('SEND_MESSAGE', function(data){
+//         io.emit('RECEIVE_MESSAGE', data);
+//     })
+//     io.on("disconnect", () => console.log("Client disconnected."));
 
+//   });
+
+//websockets
+
+const wss = new WebSockets.Server({
+    server: http
+  });
+
+  wss.on('connection', function connection(ws) {
+    ws.on('message', function incoming(data) {
+      wss.clients.forEach(function each(client) {
+        if (client !== ws && client.readyState === WebSockets.OPEN) {
+          client.send(data);
+        }
+      });
+    });
   });
 
 http.listen(port, function(){

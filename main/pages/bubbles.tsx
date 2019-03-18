@@ -10,9 +10,9 @@ const Bubbles = (props) => {
 
   <div style={style}>
       
-    <div> Name:  {props.bubble.handle}</div> 
-    <div> Date: {props.bubble.date}</div>   
-    <div> Message: {props.bubble.message}</div>
+    <div> Name:  <strong>{props.bubble.handle}</strong></div> 
+    <div> Date: <strong>{props.bubble.date}</strong></div>   
+    <div> Message: <strong>{props.bubble.message}</strong></div>
 
 </div>
 )}
