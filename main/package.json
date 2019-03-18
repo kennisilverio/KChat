@@ -2,11 +2,12 @@
   "name": "ssr-react-next",
   "version": "1.0.0",
   "description": "",
-  "main": "server.ts",
+  "main": "pages/server.ts",
   "scripts": {
+    "dev": "next",
     "build": "next build",
     "deploy": "next build && sls deploy",
-    "start": "nodemon server.ts",
+    "start": "nodemon pages/server.ts",
     "react-dev": "webpack -d --watch"
   },
   "keywords": [],
