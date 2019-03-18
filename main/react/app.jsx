@@ -18,7 +18,7 @@ class App extends React.Component {
   }
 
   handleClick(){
-    axios.post('/chat', {
+    axios.post('/api/chat', {
       message: this.state.message,
       handle: this.state.handle
     })
@@ -26,7 +26,7 @@ class App extends React.Component {
   }
 
   renderBody(){
-    axios.get('/chats', {handle: this.state.handle})
+    axios.get('/api/chat', {handle: this.state.handle})
     .then((data) => {
         this.setState({
             body: this.state.body.push(data)
